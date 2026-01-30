@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asmika's Perfumery — Your Signature Scent, Reimagined</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a962;
+      --gold-light: #e5d4a1;
+      --cream: #faf8f5;
+      --cream-dark: #f0ebe3;
+      --glass: rgba(248, 245, 245, 0.08);
+      --glass-border: rgba(201,169,98,0.2);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body { font-family: 'Outfit', sans-serif; }
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+    
+    /* Luxury gradient text */
+    .gold-text { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    
+    /* Glass card */
+    .glass-card { background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); }
+    
+    /* Hero overlay gradient */
+    .hero-gradient { background: linear-gradient(180deg, rgba(20,15,10,0.4) 0%, rgba(20,15,10,0.8) 50%, rgba(20,15,10,0.95) 100%); }
+    
+    /* Marquee */
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .marquee { animation: marquee 25s linear infinite; }
+    .marquee:hover { animation-play-state: paused; }
+    
+    /* Fade up on scroll */
+    .reveal { opacity: 0; transform: translateY(50px); transition: opacity 0.8s var(--ease), transform 0.8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    
+    /* Stagger */
+    .stagger > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+    .stagger.visible > * { opacity: 1; transform: translateY(0); }
+    .stagger.visible > *:nth-child(1) { transition-delay: 0.05s; }
+    .stagger.visible > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: 0.15s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: 0.2s; }
+    .stagger.visible > *:nth-child(5) { transition-delay: 0.25s; }
+    .stagger.visible > *:nth-child(6) { transition-delay: 0.3s; }
+    
+    /* Product card hover */
+    .product-card { transition: all 0.5s var(--ease); }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+    .product-card img { transition: transform 0.7s var(--ease); }
+    .product-card:hover img { transform: scale(1.05); }
+    
+    /* Button shimmer */
+    .btn-gold { position: relative; overflow: hidden; transition: all 0.4s var(--ease); }
+    .btn-gold::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.6s; }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 15px 35px rgba(201,169,98,0.35); }
+    .btn-gold:hover::after { left: 100%; }
+    
+    /* Quiz modal */
+    .quiz-overlay { opacity: 0; visibility: hidden; transition: all 0.4s var(--ease); }
+    .quiz-overlay.open { opacity: 1; visibility: visible; }
+    .quiz-panel { transform: scale(0.95); transition: transform 0.4s var(--ease); }
+    .quiz-overlay.open .quiz-panel { transform: scale(1); }
+    
+    /* WhatsApp float pulse */
+    @keyframes float-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(37,211,102,0.4); } 50% { box-shadow: 0 0 0 15px rgba(37,211,102,0); } }
+    .wa-float { animation: float-pulse 2s ease-in-out infinite; }
+    
+    /* Category card shine */
+    .category-card { position: relative; overflow: hidden; transition: all 0.5s var(--ease); }
+    .category-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transition: left 0.8s; }
+    .category-card:hover { transform: translateY(-6px); }
+    .category-card:hover::before { left: 100%; }
+    
+    /* Video embed placeholder */
+    .video-placeholder { background: linear-gradient(135deg, #1a1510 0%, #2d2520 100%); }
+    
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(201,169,98,0.3); color: #1a1510; }
+  </style>
+</head>
+<body class="bg-[#faf8f5] text-[#1a1510] antialiased overflow-x-hidden">
+  <!-- NAV -->
+  <nav class="fixed top-0 left-0 right-0 z-50 py-5 px-6 transition-all duration-500" id="nav">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <a href="#" class="font-display text-2xl font-semibold gold-text">Asmika's Perfumery</a>
+      <div class="hidden md:flex items-center gap-10 text-sm font-medium text-[#1a1510]/80">
+        <a href="#shop" class="hover:text-[var(--gold)] transition-colors">Shop</a>
+        <a href="#collection">Collection</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#find-scent" class="text-[var(--gold)]">Find My Scent</a>
+      </div>
+      <a href="#shop" class="btn-gold rounded-full px-6 py-2.5 text-sm font-medium bg-[var(--gold)] text-white">Shop Now</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="relative min-h-screen flex items-center justify-center">
+    <div class="absolute inset-0">
+      <img src="Images/Perfume 2.jpg" alt="Asmika's Perfumery" class="w-full h-full object-cover">
+      <div class="hero-gradient absolute inset-0"></div>
+    </div>
+    <div class="relative z-10 text-center px-6 max-w-4xl">
+      <p class="font-display text-[var(--gold)] text-lg md:text-xl tracking-[0.3em] uppercase mb-4 animate-fade-in">Your Signature Scent, Reimagined</p>
+      <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-semibold text-white mb-6 leading-tight">
+        Discover Your Favorite<br><span class="gold-text">Elegant Designer Combos</span>
+      </h1>
+      <p class="text-white/90 text-lg md:text-xl mb-10 max-w-xl mx-auto font-light">Premium Perfume Oils crafted for long-lasting elegance.</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#shop" class="btn-gold inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-medium bg-[var(--gold)] text-white">Shop the Collection</a>
+        <a href="#find-scent" class="inline-flex items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-medium border-2 border-white/40 text-white hover:bg-white/10 transition-all">Find My Scent</a>
+      </div>
+    </div>
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+      <a href="#shop" class="block animate-bounce">
+        <svg class="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- TRUST BADGE -->
+  <section class="py-12 bg-[#1a1510] text-center">
+    <p class="text-white/80 font-light">Join <span class="text-[var(--gold)] font-semibold">5,600+</span> Fragrance Lovers</p>
+  </section>
+
+  <!-- SHOP CATEGORIES -->
+  <section id="shop" class="py-24 md:py-32 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16 reveal">
+        <h2 class="font-display text-4xl md:text-6xl font-semibold mb-4">Shop the Collection</h2>
+        <p class="text-[#1a1510]/70 text-lg max-w-2xl mx-auto">Elegant Designer Fragrances for Him & Her</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 stagger" id="shop-grid">
+        <a href="#" class="category-card block rounded-2xl overflow-hidden bg-white shadow-lg">
+          <div class="aspect-[4/5] overflow-hidden">
+            <img src="Images/Perfume 3.jpg" alt="Designer 5 Combo" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="text-xs font-medium text-[var(--gold)] uppercase tracking-widest">Best Seller</span>
+            <h3 class="font-display text-2xl font-semibold mt-2">The Designer 5 Combo</h3>
+            <p class="text-[#1a1510]/60 text-sm mt-1">Your Favorite 5 Elegant Designer Combos</p>
+          </div>
+        </a>
+        <a href="#" class="category-card block rounded-2xl overflow-hidden bg-white shadow-lg">
+          <div class="aspect-[4/5] overflow-hidden">
+            <img src="Images/Perfume 1.jpg" alt="For Her" class="w-full h-full object-cover">
+          </div>
+          <div class="p-6">
+            <span class="text-xs font-medium text-[var(--gold)] uppercase tracking-widest">Floral & Sweet</span>
+            <h3 class="font-display text-2xl font-semibold mt-2">For Her</h3>
+            <p class="text-[#1a1510]/60 text-sm mt-1">Floral, Sweet, and Elegant oils</p>
+          </div>
+        </a>
+        <a href="#" class="category-card block rounded-2xl overflow-hidden bg-white shadow-lg">
+          <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-[#2d2520] to-[#1a1510] flex items-center justify-center">
+            <span class="font-display text-4xl text-[var(--gold)]/40">For Him</span>
+          </div>
+          <div class="p-6">
+            <span class="text-xs font-medium text-[var(--gold)] uppercase tracking-widest">Woody & Bold</span>
+            <h3 class="font-display text-2xl font-semibold mt-2">For Him</h3>
+            <p class="text-[#1a1510]/60 text-sm mt-1">Woody, Spicy, and Bold oils</p>
+          </div>
+        </a>
+        <a href="#" class="category-card block rounded-2xl overflow-hidden bg-white shadow-lg">
+          <div class="aspect-[4/5] overflow-hidden bg-gradient-to-br from-[#f0ebe3] to-[#e5d4a1]/30 flex items-center justify-center">
+            <span class="font-display text-3xl text-[var(--gold)]/60">Perfume Oils</span>
+          </div>
+          <div class="p-6">
+            <span class="text-xs font-medium text-[var(--gold)] uppercase tracking-widest">Concentrated</span>
+            <h3 class="font-display text-2xl font-semibold mt-2">Perfume Oils</h3>
+            <p class="text-[#1a1510]/60 text-sm mt-1">Long-lasting alternatives to sprays</p>
+          </div>
+        </a>
+        <a href="#" class="category-card block rounded-2xl overflow-hidden bg-white shadow-lg md:col-span-2">
+          <div class="aspect-[21/9] overflow-hidden flex">
+            <img src="Images/Perfume 1.jpg" alt="Gift Sets" class="w-1/2 object-cover">
+            <img src="Images/Perfume 3.jpg" alt="Gift Sets" class="w-1/2 object-cover">
+          </div>
+          <div class="p-6">
+            <span class="text-xs font-medium text-[var(--gold)] uppercase tracking-widest">Gift for Someone Special</span>
+            <h3 class="font-display text-2xl font-semibold mt-2">Gift Sets</h3>
+            <p class="text-[#1a1510]/60 text-sm mt-1">Curated collections in elegant packaging</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO SECTION -->
+  <section id="collection" class="py-24 px-6 bg-[#1a1510]">
+    <div class="max-w-4xl mx-auto reveal">
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-white text-center mb-4">See the Quality</h2>
+      <p class="text-white/70 text-center mb-12">26K+ views — Discover the texture & packaging of our oils</p>
+      <div class="video-placeholder rounded-2xl aspect-video flex items-center justify-center overflow-hidden border border-[var(--glass-border)]">
+        <div class="text-center p-8">
+          <div class="w-20 h-20 rounded-full bg-[var(--gold)]/20 flex items-center justify-center mx-auto mb-4">
+            <svg class="w-10 h-10 text-[var(--gold)] ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+          <p class="text-white/80 font-light">Video coming soon</p>
+          <p class="text-white/50 text-sm mt-1">Replace with your YouTube/Facebook embed</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="reviews" class="py-24 md:py-32 overflow-hidden">
+    <div class="reveal text-center mb-16 px-6">
+      <h2 class="font-display text-4xl md:text-6xl font-semibold mb-4">Review Highlights</h2>
+      <p class="text-[#1a1510]/70 text-lg">What our fragrance lovers say</p>
+    </div>
+    <div class="relative">
+      <div class="marquee flex gap-8 py-4">
+        <div class="flex gap-8 shrink-0">
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"The Designer 5 combo is incredible! Lasts all day and the packaging is so elegant."</p>
+            <p class="text-[var(--gold)] font-medium">— Sarah K.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Finally found my signature scent. Asmika's oils are a game changer."</p>
+            <p class="text-[var(--gold)] font-medium">— Ayesha M.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Gifted the combo set to my mom — she was so impressed with the quality!"</p>
+            <p class="text-[var(--gold)] font-medium">— Fatima R.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Best perfume oils in Dhaka. Worth every taka."</p>
+            <p class="text-[var(--gold)] font-medium">— Imran H.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"The Vampire Blood scent is unique and luxurious. Love it!"</p>
+            <p class="text-[var(--gold)] font-medium">— Nabila T.</p>
+          </div>
+        </div>
+        <div class="flex gap-8 shrink-0">
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"The Designer 5 combo is incredible! Lasts all day and the packaging is so elegant."</p>
+            <p class="text-[var(--gold)] font-medium">— Sarah K.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Finally found my signature scent. Asmika's oils are a game changer."</p>
+            <p class="text-[var(--gold)] font-medium">— Ayesha M.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Gifted the combo set to my mom — she was so impressed with the quality!"</p>
+            <p class="text-[var(--gold)] font-medium">— Fatima R.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"Best perfume oils in Dhaka. Worth every taka."</p>
+            <p class="text-[var(--gold)] font-medium">— Imran H.</p>
+          </div>
+          <div class="glass-card rounded-2xl p-8 w-80 shrink-0">
+            <p class="text-[#1a1510]/80 italic mb-4">"The Vampire Blood scent is unique and luxurious. Love it!"</p>
+            <p class="text-[var(--gold)] font-medium">— Nabila T.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENT FINDER QUIZ CTA -->
+  <section id="find-scent" class="py-24 md:py-32 px-6 bg-[#1a1510]">
+    <div class="max-w-3xl mx-auto text-center reveal">
+      <h2 class="font-display text-4xl md:text-6xl font-semibold text-white mb-6">Find Your Perfect Match</h2>
+      <p class="text-white/80 text-lg mb-10">Answer 3 quick questions and we'll recommend your ideal scent from our collection.</p>
+      <button onclick="openQuiz()" class="btn-gold inline-flex items-center gap-2 rounded-full px-10 py-4 text-base font-medium bg-[var(--gold)] text-white">Take the Scent Finder Quiz</button>
+    </div>
+  </section>
+
+  <!-- QUIZ MODAL -->
+  <div class="quiz-overlay fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/60 backdrop-blur-sm" id="quizOverlay">
+    <div class="quiz-panel bg-[var(--cream)] rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl" id="quizPanel">
+      <div class="p-8 md:p-12">
+        <div class="flex justify-between items-start mb-8">
+          <h3 class="font-display text-2xl font-semibold gold-text">Find Your Scent</h3>
+          <button onclick="closeQuiz()" class="text-[#1a1510]/50 hover:text-[#1a1510] transition-colors">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div id="quizContent">
+          <!-- Q1 -->
+          <div id="q1" class="quiz-step">
+            <p class="text-[#1a1510]/80 mb-6">What vibe are you going for?</p>
+            <div class="space-y-3">
+              <button onclick="quizAnswer(1, 'floral')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] hover:bg-[var(--gold)]/5 transition-all">Floral & Sweet</button>
+              <button onclick="quizAnswer(1, 'woody')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] hover:bg-[var(--gold)]/5 transition-all">Woody & Bold</button>
+              <button onclick="quizAnswer(1, 'fresh')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] hover:bg-[var(--gold)]/5 transition-all">Fresh & Clean</button>
+              <button onclick="quizAnswer(1, 'warm')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] hover:bg-[var(--gold)]/5 transition-all">Warm & Spicy</button>
+            </div>
+          </div>
+          <!-- Q2 -->
+          <div id="q2" class="quiz-step hidden">
+            <p class="text-[#1a1510]/80 mb-6">Who is it for?</p>
+            <div class="space-y-3">
+              <button onclick="quizAnswer(2, 'me')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">Myself</button>
+              <button onclick="quizAnswer(2, 'her')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">A special someone (Her)</button>
+              <button onclick="quizAnswer(2, 'him')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">A special someone (Him)</button>
+              <button onclick="quizAnswer(2, 'gift')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">Gift set for multiple</button>
+            </div>
+          </div>
+          <!-- Q3 -->
+          <div id="q3" class="quiz-step hidden">
+            <p class="text-[#1a1510]/80 mb-6">How do you like to wear fragrance?</p>
+            <div class="space-y-3">
+              <button onclick="quizAnswer(3, 'daily')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">Everyday staple</button>
+              <button onclick="quizAnswer(3, 'special')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">Special occasions</button>
+              <button onclick="quizAnswer(3, 'layered')" class="quiz-opt w-full text-left px-5 py-4 rounded-xl border-2 border-[var(--glass-border)] hover:border-[var(--gold)] transition-all">I love layering scents</button>
+            </div>
+          </div>
+          <!-- Result -->
+          <div id="quizResult" class="quiz-step hidden text-center py-8">
+            <p class="font-display text-2xl text-[var(--gold)] mb-4">Your Perfect Match</p>
+            <p id="resultText" class="text-[#1a1510]/80 mb-6"></p>
+            <a href="https://wa.me/8801917144145?text=Hi!%20I%20took%20the%20Scent%20Finder%20quiz%20and%20would%20like%20to%20discuss%20my%20recommendation." target="_blank" class="btn-gold inline-flex items-center gap-2 rounded-full px-8 py-4 bg-[#25D366] text-white font-medium">
+              Chat on WhatsApp
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+            <p class="text-sm text-[#1a1510]/50 mt-4">Our team will help you with pricing & delivery</p>
+          </div>
+        </div>
+        <div class="flex gap-2 mt-8">
+          <span class="w-2 h-2 rounded-full bg-[var(--gold)]" id="dot1"></span>
+          <span class="w-2 h-2 rounded-full bg-[var(--glass-border)]" id="dot2"></span>
+          <span class="w-2 h-2 rounded-full bg-[var(--glass-border)]" id="dot3"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#1a1510] text-white py-16 px-6">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-4 gap-12">
+      <div>
+        <h4 class="font-display text-2xl gold-text mb-4">Asmika's Perfumery</h4>
+        <p class="text-white/60 text-sm">Your Signature Scent, Reimagined.</p>
+      </div>
+      <div>
+        <h5 class="font-medium mb-4">Shop</h5>
+        <ul class="space-y-2 text-white/60 text-sm">
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors">Designer 5 Combo</a></li>
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors">For Her</a></li>
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors">For Him</a></li>
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors">Gift Sets</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-medium mb-4">Connect</h5>
+        <ul class="space-y-2 text-white/60 text-sm">
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors flex items-center gap-2">Instagram</a></li>
+          <li><a href="#" class="hover:text-[var(--gold)] transition-colors flex items-center gap-2">Facebook</a></li>
+        </ul>
+      </div>
+      <div>
+        <a href="https://wa.me/8801917144145" target="_blank" class="inline-flex items-center gap-2 text-[#25D366] font-medium hover:underline">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="max-w-6xl mx-auto mt-12 pt-8 border-t border-white/10 text-center text-white/40 text-sm">
+      © Asmika's Perfumery — Dhaka, Bangladesh
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOATING BUTTON -->
+  <a href="https://wa.me/8801917144145?text=Hi!%20I'd%20like%20a%20personalized%20scent%20consultation." target="_blank" class="wa-float fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg hover:scale-110 transition-transform" aria-label="Chat on WhatsApp">
+    <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal, .stagger');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(r => obs.observe(r));
+
+    // Nav scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('bg-[#1a1510]/80', window.scrollY > 100);
+    });
+
+    // Quiz
+    let quizStep = 1;
+    const answers = {};
+    const results = {
+      floral: { me: 'The Designer 5 Combo or our floral oils like Black Opium, Miss Dior, Gucci Flora.', her: 'Gift Set For Her — floral & sweet collection.', him: 'Try our unisex options!', gift: 'The Designer 5 Combo gift set — perfect for sharing.' },
+      woody: { me: 'Our woody & bold oils — Aventus, Acqua di Gio inspired.', her: 'Gift Set with woody notes.', him: 'For Him collection — Aventus, Acqua di Gio.', gift: 'Designer 5 Combo or custom gift set.' },
+      fresh: { me: 'Fresh & clean oils from our collection.', her: 'Light floral or fresh gift set.', him: 'Acqua di Gio inspired oils.', gift: 'Curated fresh scent gift set.' },
+      warm: { me: 'Warm & spicy oils — SRK, Vampire Blood, Aventus.', her: 'Warm oriental gift set.', him: 'For Him — woody & spicy oils.', gift: 'Designer 5 Combo with bold options.' }
+    };
+
+    function openQuiz() {
+      document.getElementById('quizOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeQuiz() {
+      document.getElementById('quizOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('quizOverlay').addEventListener('click', (e) => { if (e.target === e.currentTarget) closeQuiz(); });
+
+    function quizAnswer(q, val) {
+      if (q === 1) answers.vibe = val;
+      if (q === 2) answers.who = val;
+      if (q === 3) {
+        const r = results[answers.vibe] || results.floral;
+        const txt = r[answers.who] || r.me;
+        document.getElementById('resultText').textContent = txt;
+        document.querySelectorAll('.quiz-step').forEach(s => s.classList.add('hidden'));
+        document.getElementById('quizResult').classList.remove('hidden');
+        document.querySelectorAll('[id^=dot]').forEach(d => d.classList.add('bg-[var(--glass-border)]'));
+        return;
+      }
+      document.getElementById('q' + quizStep).classList.add('hidden');
+      quizStep++;
+      document.getElementById('q' + quizStep).classList.remove('hidden');
+      document.getElementById('dot' + (quizStep - 1)).classList.remove('bg-[var(--gold)]');
+      document.getElementById('dot' + quizStep).classList.add('bg-[var(--gold)]');
+    }
+  </script>
+</body>
+</html>
