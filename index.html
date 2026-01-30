@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio One Zero — Architecture & Interior</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+    }
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+    
+    /* Hero slider */
+    .hero-slide {
+      opacity: 0;
+      transform: scale(1.05);
+      transition: opacity 1.4s var(--ease-out-expo), transform 1.4s var(--ease-out-expo);
+    }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Slide indicator animation */
+    .slide-dot {
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    .slide-dot.active {
+      width: 28px;
+      border-radius: 4px;
+      background: white !important;
+    }
+    
+    /* Image hover lift */
+    .gallery-item {
+      overflow: hidden;
+      transition: transform 0.6s var(--ease-out-expo);
+    }
+    .gallery-item:hover {
+      transform: translateY(-6px);
+    }
+    .gallery-item img {
+      transition: transform 0.8s var(--ease-out-expo);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+    
+    /* Button shimmer */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s var(--ease-out-expo);
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.6s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .btn-primary:hover::before { left: 100%; }
+    
+    /* Stagger children */
+    .stagger-children > * { opacity: 0; transform: translateY(24px); }
+    .stagger-children.visible > * {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+    }
+    .stagger-children.visible > *:nth-child(1) { transition-delay: 0.05s; }
+    .stagger-children.visible > *:nth-child(2) { transition-delay: 0.1s; }
+    .stagger-children.visible > *:nth-child(3) { transition-delay: 0.15s; }
+    .stagger-children.visible > *:nth-child(4) { transition-delay: 0.2s; }
+    .stagger-children.visible > *:nth-child(5) { transition-delay: 0.25s; }
+    .stagger-children.visible > *:nth-child(6) { transition-delay: 0.3s; }
+    
+    /* Trust badge pulse */
+    @keyframes soft-pulse {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 1; }
+    }
+    .trust-badge { animation: soft-pulse 3s ease-in-out infinite; }
+    
+    /* Footer divider gradient */
+    .footer-divider {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+    
+    /* Smooth scroll */
+    html { scroll-behavior: smooth; }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-slide, .reveal, .gallery-item, .btn-primary, .slide-dot { transition: none; }
+      .stagger-children > * { transition: none; }
+      .trust-badge { animation: none; }
+    }
+    
+    /* Selection */
+    ::selection { background: rgba(255,255,255,0.2); color: white; }
+  </style>
+</head>
+<body class="bg-[#0a0a0a] text-white antialiased overflow-x-hidden">
+  <!-- HERO SLIDER -->
+  <section class="relative h-screen w-full">
+    <div class="absolute inset-0">
+      <img src="Images/577330224_1371832361398544_6977462718286972031_n.jpg" alt="Studio project" class="hero-slide active absolute inset-0 w-full h-full object-cover" data-index="0">
+      <img src="Images/577601892_1371832154731898_529018755290127087_n.jpg" alt="Studio project" class="hero-slide absolute inset-0 w-full h-full object-cover" data-index="1">
+      <img src="Images/577778422_1371832478065199_1430130977324529226_n.jpg" alt="Studio project" class="hero-slide absolute inset-0 w-full h-full object-cover" data-index="2">
+      <img src="Images/605475041_1410433620871751_3925163400463725127_n.jpg" alt="Studio project" class="hero-slide absolute inset-0 w-full h-full object-cover" data-index="3">
+      <img src="Images/605712206_1410434034205043_3605867219322981239_n.jpg" alt="Studio project" class="hero-slide absolute inset-0 w-full h-full object-cover" data-index="4">
+    </div>
+
+    <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" aria-hidden="true"></div>
+
+    <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+      <h1 class="font-display text-6xl md:text-8xl font-semibold tracking-tight mb-6 opacity-0 animate-fade-up" style="animation: fadeUp 1s var(--ease-out-expo) 0.2s forwards;">
+        Studio One Zero
+      </h1>
+      <p class="text-lg md:text-xl max-w-2xl mb-10 text-white/85 font-light tracking-wide opacity-0 animate-fade-up" style="animation: fadeUp 1s var(--ease-out-expo) 0.5s forwards;">
+        Architecture • Interior • Consultancy • Construction
+      </p>
+      <a href="#gallery" class="btn-primary inline-flex items-center gap-2 rounded-2xl px-10 py-4 text-base font-medium bg-white text-black hover:bg-white/95 opacity-0" style="animation: fadeUp 1s var(--ease-out-expo) 0.8s forwards;">
+        Explore Our Studio
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+      </a>
+    </div>
+
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
+      <button class="slide-dot w-2 h-2 rounded-full bg-white/40 active" data-slide="0" aria-label="Slide 1"></button>
+      <button class="slide-dot w-2 h-2 rounded-full bg-white/40" data-slide="1" aria-label="Slide 2"></button>
+      <button class="slide-dot w-2 h-2 rounded-full bg-white/40" data-slide="2" aria-label="Slide 3"></button>
+      <button class="slide-dot w-2 h-2 rounded-full bg-white/40" data-slide="3" aria-label="Slide 4"></button>
+      <button class="slide-dot w-2 h-2 rounded-full bg-white/40" data-slide="4" aria-label="Slide 5"></button>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="py-32 bg-[#0a0a0a]">
+    <div class="max-w-4xl mx-auto text-center px-6 reveal">
+      <h2 class="font-display text-4xl md:text-5xl font-semibold mb-8 text-white">
+        Designing Identity, Not Just Buildings
+      </h2>
+      <p class="text-white/70 text-lg md:text-xl leading-relaxed font-light">
+        Studio One Zero is a Dhaka-based architecture and interior studio focused on
+        modern, functional and elegant spatial experiences. Every frame you see
+        represents our design philosophy.
+      </p>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery" class="pb-24">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4 md:px-8 max-w-7xl mx-auto stagger-children">
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/577330224_1371832361398544_6977462718286972031_n.jpg" alt="Project 1" class="w-full h-full object-cover">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/577601892_1371832154731898_529018755290127087_n.jpg" alt="Project 2" class="w-full h-full object-cover">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/577778422_1371832478065199_1430130977324529226_n.jpg" alt="Project 3" class="w-full h-full object-cover">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/605475041_1410433620871751_3925163400463725127_n.jpg" alt="Project 4" class="w-full h-full object-cover">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/605712206_1410434034205043_3605867219322981239_n.jpg" alt="Project 5" class="w-full h-full object-cover">
+      </div>
+      <div class="gallery-item rounded-xl overflow-hidden aspect-[4/5]">
+        <img src="Images/image.png" alt="Project 6" class="w-full h-full object-cover">
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="py-28 bg-[#0a0a0a]">
+    <div class="max-w-2xl mx-auto text-center px-6 reveal trust-badge">
+      <h3 class="font-display text-3xl md:text-4xl font-semibold mb-4 text-white">
+        Trusted by 5,800+ People
+      </h3>
+      <p class="text-white/60 text-base md:text-lg leading-relaxed">
+        Alhamdulillah, our studio has successfully delivered premium architectural
+        and interior solutions with quality and integrity.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#0a0a0a] border-t border-white/10">
+    <div class="footer-divider h-px w-full"></div>
+    <div class="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-3 gap-12 md:gap-16">
+      <div class="reveal">
+        <h4 class="font-display text-2xl font-semibold mb-3 text-white">Studio One Zero</h4>
+        <p class="text-white/50 text-sm">Architecture & Interior Studio</p>
+      </div>
+      <div class="space-y-4 text-white/70 text-sm reveal">
+        <p class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-white/50 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Kalabagan, Dhaka
+        </p>
+        <p class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-white/50 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          01917144145
+        </p>
+        <p class="flex items-center gap-3">
+          <svg class="w-4 h-4 text-white/50 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          jaforhoq10@gmail.com
+        </p>
+      </div>
+      <div class="reveal rounded-xl overflow-hidden h-44 md:h-40 border border-white/10">
+        <iframe
+          class="w-full h-full"
+          loading="lazy"
+          src="https://maps.google.com/maps?q=Kalabagan%20Lake%20Circus&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          title="Map"
+        ></iframe>
+      </div>
+    </div>
+    <div class="border-t border-white/5 py-6 text-center text-white/40 text-sm">
+      © Studio One Zero — Dhaka, Bangladesh
+    </div>
+  </footer>
+
+  <style>
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <script>
+    // Hero slider
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slide-dot');
+    let current = 0;
+    const total = slides.length;
+
+    function goToSlide(i) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (i + total) % total;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => goToSlide(i));
+    });
+
+    setInterval(() => goToSlide(current + 1), 4500);
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal, .stagger-children');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
